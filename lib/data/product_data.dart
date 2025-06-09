@@ -13,5 +13,4 @@ final List<Product> productList = [
     description: 'Ripe bananas rich in potassium.',
     price: 0.8,
   ),
-  // Add more...
 ];

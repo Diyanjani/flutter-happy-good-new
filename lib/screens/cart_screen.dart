@@ -50,76 +50,72 @@ class _CartScreenState extends State<CartScreen> {
           cartItems.isEmpty
               ? const Center(child: Text('Your cart is empty'))
               : ListView.builder(
-                itemCount: cartItems.length,
+                padding: const EdgeInsets.all(16),
+                itemCount: cartItems.length + 1,
                 itemBuilder: (context, index) {
-                  final product = cartItems[index]['product'] as Product;
-                  final quantity = cartItems[index]['quantity'] as int;
-                  final total = product.price * quantity;
+                  if (index < cartItems.length) {
+                    final product = cartItems[index]['product'] as Product;
+                    final quantity = cartItems[index]['quantity'] as int;
+                    final total = product.price * quantity;
 
-                  return ListTile(
-                    leading: Image.asset(
-                      product.image,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(product.name),
-                    subtitle: Text(
-                      'Quantity: $quantity\nTotal: Rs. ${total.toStringAsFixed(2)}',
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        setState(() {
-                          CartScreen._cart.remove(product.name);
-                        });
-                      },
-                    ),
-                  );
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      child: ListTile(
+                        leading: Image.asset(
+                          product.image,
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(product.name),
+                        subtitle: Text(
+                          'Quantity: $quantity\nTotal: Rs. ${total.toStringAsFixed(2)}',
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () {
+                            setState(() {
+                              CartScreen._cart.remove(product.name);
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 12),
+                        Text(
+                          'Total Amount: Rs. ${totalAmount.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CheckoutScreen(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.lightBlue,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            textStyle: const TextStyle(fontSize: 18),
+                          ),
+                          child: const Text('Checkout'),
+                        ),
+                      ],
+                    );
+                  }
                 },
               ),
-      bottomNavigationBar:
-          cartItems.isNotEmpty
-              ? Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Total Amount: Rs. ${totalAmount.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CheckoutScreen(),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightBlue,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          textStyle: const TextStyle(fontSize: 18),
-                        ),
-                        child: const Text('Checkout'),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-              : null,
     );
   }
 }

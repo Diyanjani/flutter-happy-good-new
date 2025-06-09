@@ -4,7 +4,7 @@ import 'screens/home_screen.dart';
 import 'screens/products_screen.dart';
 import 'screens/cart_screen.dart';
 import 'screens/profile_screen.dart';
-import 'screens/login_screen.dart'; // ✅ import login screen
+import 'screens/login_screen.dart';
 import 'widgets/bottom_nav_bar.dart';
 
 void main() {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
-      home: LoginScreen(), // ✅ Start with login screen
+      home: LoginScreen(), 
       debugShowCheckedModeBanner: false,
     );
   }
